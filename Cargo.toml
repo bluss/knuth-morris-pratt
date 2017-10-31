@@ -1,0 +1,14 @@
+[package]
+name = "knuth-morris-pratt"
+version = "0.1.0"
+authors = ["bluss <bluss@users.noreply.github.com>"]
+
+[dependencies]
+
+[dev-dependencies]
+quickcheck = { version = "0.4", default-features = false }
+odds = "0.2"
+custom_derive = "0.1"
+newtype_derive = "0.1"
+rand = "0.3.10"
+itertools = "0.7"
