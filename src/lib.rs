@@ -23,15 +23,19 @@ fn prepare_kmp<T>(x: &[T], next: &mut [usize])
     }
 }
 
+const STACK_NEXT_SIZE: usize = 16;
+
 /// Search for the first occurence of `pattern` as a substring of `text`,
 /// if any. Return the start of the substring as an offset from the start of
 /// the text inside a `Some`. If the patter is not found, return `None`.
 pub fn knuth_morris_pratt<T>(text: &[T], pattern: &[T]) -> Option<usize>
     where T: PartialEq
 {
+    // empty pattern is a trivial match
     if pattern.len() == 0 {
         return Some(0);
     }
+
     if pattern.len() >= text.len() {
         return if pattern == text {
             Some(0)
@@ -39,8 +43,18 @@ pub fn knuth_morris_pratt<T>(text: &[T], pattern: &[T]) -> Option<usize>
             None
         };
     }
-    let mut next = vec![0; pattern.len() + 1];
-    prepare_kmp(pattern, &mut next);
+
+    // use the stack for short patterns
+    let mut next_vec;
+    let mut next_stack = [0; STACK_NEXT_SIZE];
+    let next;
+    if pattern.len() > STACK_NEXT_SIZE - 1 {
+        next_vec = vec![0; pattern.len() + 1];
+        next = &mut next_vec[..];
+    } else {
+        next = &mut next_stack[..];
+    }
+    prepare_kmp(pattern, next);
     
     let mut i = 0;
     let mut j = 0;
