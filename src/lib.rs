@@ -35,7 +35,7 @@ const STACK_NEXT_SIZE: usize = 32;
 /// if any. Return the start of the substring as an offset from the start of
 /// the text inside a `Some`. If the pattern is not found, return `None`.
 pub fn knuth_morris_pratt<T>(text: &[T], pattern: &[T]) -> Option<usize>
-    where T: PartialEq
+    where T: Eq
 {
     knuth_morris_pratt_by(text, pattern, PartialEq::eq)
 }
