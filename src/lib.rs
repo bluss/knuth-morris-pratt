@@ -48,7 +48,7 @@ pub fn knuth_morris_pratt<T>(text: &[T], pattern: &[T]) -> Option<usize>
     let mut next_vec;
     let mut next_stack = [0; STACK_NEXT_SIZE];
     let next;
-    if pattern.len() > STACK_NEXT_SIZE - 1 {
+    if pattern.len() >= STACK_NEXT_SIZE {
         next_vec = vec![0; pattern.len() + 1];
         next = &mut next_vec[..];
     } else {
@@ -59,7 +59,7 @@ pub fn knuth_morris_pratt<T>(text: &[T], pattern: &[T]) -> Option<usize>
     let mut i = 0;
     let mut j = 0;
     while j < text.len() {
-        while let Some(&next_i) = next.get(i) { // sentinel .get(!0) -> None
+        while let Some(&next_i) = next.get(i) { // .get(!0) -> None
             if pattern[i] == text[j] {
                 break;
             }
@@ -76,8 +76,9 @@ pub fn knuth_morris_pratt<T>(text: &[T], pattern: &[T]) -> Option<usize>
 }
 
 
+// more thorough tests in the tests/ directory
 #[test]
-fn test_stuff() {
+fn basic_test() {
     let body = "G";
     let pattern = "GCAGAGAG";
     knuth_morris_pratt(body.as_bytes(), pattern.as_bytes());
@@ -97,6 +98,5 @@ fn test_stuff() {
     test!("abcαaαβγ", "αβ");
 
     let result = knuth_morris_pratt(&[1729, 1, 1729, 3, 4], &[1729, 3]);
-    println!("Found = {:?}", result);
     assert_eq!(result, Some(2));
 }
