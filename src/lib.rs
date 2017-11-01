@@ -30,7 +30,7 @@ fn prepare_kmp<T>(x: &[T], next: &mut [usize])
     }
 }
 
-const STACK_NEXT_SIZE: usize = 16;
+const STACK_NEXT_SIZE: usize = 32;
 
 /// Search for the first occurence of `pattern` as a substring of `text`,
 /// if any. Return the start of the substring as an offset from the start of
