@@ -3,6 +3,9 @@
 //!
 //! It generally has steady performance without pathological cases but also
 //! without cases that are spectacularly faster than the average.
+//!
+//! Substring search for a *pattern* of length m occuring in a *text* of length
+//! n computes in **O(n)** time and uses **O(min(n, m))** space.
 
 // compute a KMP shift table for each element of the pattern `x`.
 // !0 is a sentinel value.
