@@ -1,4 +1,11 @@
-// compute a Knuth-Morris-Pratt shift table for each element of the pattern `x`.
+//! Knuth-Morris-Pratt is a substring search algorithm which requires
+//! an *alphabet* where the letters are equality comparable.
+//!
+//! It generally has steady performance without pathological cases but also
+//! without cases that are spectacularly faster than the average.
+
+
+// compute a KMP shift table for each element of the pattern `x`.
 // !0 is a sentinel value.
 fn prepare_kmp<T>(x: &[T], next: &mut [usize])
     where T: PartialEq
@@ -27,7 +34,7 @@ const STACK_NEXT_SIZE: usize = 16;
 
 /// Search for the first occurence of `pattern` as a substring of `text`,
 /// if any. Return the start of the substring as an offset from the start of
-/// the text inside a `Some`. If the patter is not found, return `None`.
+/// the text inside a `Some`. If the pattern is not found, return `None`.
 pub fn knuth_morris_pratt<T>(text: &[T], pattern: &[T]) -> Option<usize>
     where T: PartialEq
 {
