@@ -8,6 +8,6 @@ authors = ["bluss <bluss@users.noreply.github.com>"]
 [dev-dependencies]
 quickcheck = { version = "0.4", default-features = false }
 odds = "0.2"
-custom_derive = "0.1"
+macro-attr = "0.2"
 newtype_derive = "0.1"
 rand = "0.3.10"

@@ -5,7 +5,7 @@ extern crate knuth_morris_pratt;
 
 extern crate quickcheck;
 extern crate odds;
-#[macro_use] extern crate custom_derive;
+#[macro_use] extern crate macro_attr;
 #[macro_use] extern crate newtype_derive;
 
 
@@ -41,8 +41,8 @@ impl<T> Arbitrary for Short<T>
     }
 }
 
-custom_derive! {
-    #[derive(Clone, Debug, NewtypeDeref)]
+macro_attr! {
+    #[derive(Clone, Debug, NewtypeDeref!)]
     struct Text(String);
 }
 
@@ -67,8 +67,8 @@ impl Arbitrary for Text {
 }
 
 /// Text from an alphabet of only two letters
-custom_derive! {
-    #[derive(Clone, Debug, NewtypeDeref)]
+macro_attr! {
+    #[derive(Clone, Debug, NewtypeDeref!)]
     struct SimpleText(String);
 }
 

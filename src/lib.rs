@@ -72,18 +72,16 @@ pub fn knuth_morris_pratt_by<T, FEq>(text: &[T], pattern: &[T], mut equal: FEq)
     prepare_kmp(pattern, next, &mut equal);
     
     let mut i = 0;
-    let mut j = 0;
-    while j < text.len() {
+    for (j, text_elt) in text.iter().enumerate() {
         while let Some(&next_i) = next.get(i) { // .get(!0) -> None
-            if equal(&pattern[i], &text[j]) {
+            if equal(&pattern[i], text_elt) {
                 break;
             }
             i = next_i;
         }
         i = i.wrapping_add(1);
-        j += 1;
         if i >= pattern.len() {
-            return Some(j - i);
+            return Some(j + 1 - i);
             // i = next[i]; to continue searching after first match
         }
     }
