@@ -138,18 +138,6 @@ fn test_contains() {
     quickcheck(prop as fn(_, _) -> _);
 }
 
-#[ignore]
-#[test]
-fn test_contains_rev() {
-    fn prop(a: Text, b: Short<Text>) -> TestResult {
-        let a = &a.0;
-        let b = &b[..];
-        let truth = a.contains(b);
-        TestResult::from_bool(contains_rev(&a, &b) == truth)
-    }
-    quickcheck(prop as fn(_, _) -> _);
-}
-
 #[test]
 fn test_find_str() {
     fn prop(a: Text, b: Short<Text>) -> TestResult {
@@ -157,18 +145,6 @@ fn test_find_str() {
         let b = &b[..];
         let truth = a.find(b);
         TestResult::from_bool(find(&a, &b) == truth)
-    }
-    quickcheck(prop as fn(_, _) -> _);
-}
-
-#[ignore]
-#[test]
-fn test_rfind_str() {
-    fn prop(a: Text, b: Short<Text>) -> TestResult {
-        let a = &a.0;
-        let b = &b[..];
-        let truth = a.rfind(b);
-        TestResult::from_bool(rfind(&a, &b) == truth)
     }
     quickcheck(prop as fn(_, _) -> _);
 }
@@ -183,20 +159,6 @@ fn test_contains_plus() {
         let truth = a.contains(b);
         TestResult::from_bool(contains(&a, &b) == truth &&
             (!truth || b.substrings().all(|sub| contains(&a, sub))))
-    }
-    quickcheck(prop as fn(_, _) -> _);
-}
-
-#[ignore]
-#[test]
-fn test_contains_rev_plus() {
-    fn prop(a: Text, b: Short<Text>) -> TestResult {
-        let a = &a.0;
-        let b = &b[..];
-        if b.len() == 0 { return TestResult::discard() }
-        let truth = a.contains(b);
-        TestResult::from_bool(contains_rev(&a, &b) == truth &&
-            (!truth || b.substrings().all(|sub| contains_rev(&a, sub))))
     }
     quickcheck(prop as fn(_, _) -> _);
 }
@@ -253,65 +215,3 @@ fn test_find_period() {
     }
     quickcheck(prop as fn(_, _) -> _);
 }
-
-#[ignore]
-#[test]
-fn test_find_rev_period() {
-    fn prop(a: SimpleText, b: Short<SimpleText>) -> TestResult {
-        let a = &a.0;
-        let b = &b[..];
-        let pat = [b, b].concat();
-        let truth = a.rfind(&pat);
-        TestResult::from_bool(rfind(a, &pat) == truth)
-    }
-    quickcheck(prop as fn(_, _) -> _);
-}
-
-
-/*
-#[test]
-fn test_find_byte() {
-    fn prop(v: Vec<u8>, offset: u8) -> bool {
-        use twoway::set::find_byte as memchr;
-
-        // test all pointer alignments
-        let uoffset = (offset & 0xF) as usize;
-        let data = if uoffset <= v.len() {
-            &v[uoffset..]
-        } else {
-            &v[..]
-        };
-        for byte in 0..256u32 {
-            let byte = byte as u8;
-            if memchr(byte, &data) != data.iter().position(|elt| *elt == byte) {
-                return false;
-            }
-        }
-        true
-    }
-    quickcheck(prop as fn(_, _) -> _);
-}
-
-#[test]
-fn test_rfind_byte() {
-    fn prop(v: Vec<u8>, offset: u8) -> bool {
-        use twoway::set::rfind_byte as memrchr;
-
-        // test all pointer alignments
-        let uoffset = (offset & 0xF) as usize;
-        let data = if uoffset <= v.len() {
-            &v[uoffset..]
-        } else {
-            &v[..]
-        };
-        for byte in 0..256u32 {
-            let byte = byte as u8;
-            if memrchr(byte, &data) != data.iter().rposition(|elt| *elt == byte) {
-                return false;
-            }
-        }
-        true
-    }
-    quickcheck(prop as fn(_, _) -> _);
-}
-*/
